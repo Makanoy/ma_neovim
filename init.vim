@@ -1,254 +1,365 @@
-let mapleader = " "
+call plug#begin('~/.vim/plugged')
 
-" Install vundle
-let shouldInstallBundles = 0
 
-if !filereadable($HOME . "/.config/nvim/autoload/plug.vim")
-  echo "~≥ Installing vim-plug \n"
-  silent !curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  let shouldInstallBundles = 1
-endif
+Plug 'scrooloose/nerdtree'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"Plug 'ryanoasis/vim-devicons'
+"Plug 'airblade/vim-gitgutter'
+Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
+"Plug 'scrooloose/nerdcommenter'
 
-" Plugins
-call plug#begin('~/.config/nvim/plugged')
-Plug 'tpope/vim-vinegar'
-Plug 'https://github.com/preservim/nerdtree'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
-Plug 'https://github.com/rafi/awesome-vim-colorschemes'
+Plug 'morhetz/gruvbox' " Theme
+
+Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+Plug 'bfrg/vim-cpp-modern' " C++ syntax
+Plug 'mustache/vim-mustache-handlebars' " Handlebars syntax
+Plug 'tie/llvm.vim' " LLVM IR syntax
+
+Plug 'junegunn/vim-easy-align' " Align code
+
+Plug 'vim-airline/vim-airline'
+Plug 'https://tpope.io/vim/commentary.git'
+Plug 'https://tpope.io/vim/surround.git'
+Plug 'https://tpope.io/vim/repeat.git' " To make surround repeatable
+Plug 'tpope/vim-abolish'				   " To convert between camel case, snake case, etc. (crs, crc, crm)
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-user'
+Plug 'vim-scripts/regreplop.vim'  "Replace something with the clipboard (<C-K><motion>)
+Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-scripts/argtextobj.vim' "function arguments
+Plug 'bkad/CamelCaseMotion'
+Plug 'rluba/vim-ripgrep'
+
+Plug 'glts/vim-magnum'	" For vim-radical
+Plug 'glts/vim-radical' " View numbers in different representations (gA) and convert them (crd, crx, crb)
+
+Plug 'jonsmithers/vim-html-template-literals'
+
+Plug 'chr4/nginx.vim'
+Plug 'ludovicchabant/vim-gutentags' " Update ctags files as you edit
+
+Plug 'ConradIrwin/vim-bracketed-paste' " Supposed to fix double-indentation when pasting indented code into vim
+
+Plug 'rluba/jai.vim'
+
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-bundler', { 'for': 'ruby' }
-Plug 'tpope/vim-rake', { 'for': 'ruby' }
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'airblade/vim-gitgutter'
-Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' } | Plug 'kana/vim-textobj-user'
-Plug 'vim-scripts/matchit.zip'
-Plug 'benekastah/neomake', { 'on': 'Neomake' }
-Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'christoomey/vim-tmux-runner'
-Plug 'wincent/terminus'
-Plug 'kurkale6ka/vim-pairs'
-Plug 'w0ng/vim-hybrid'
-Plug 'janko-m/vim-test', { 'for': ['ruby', 'javascript'] }
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'elzr/vim-json', {'for' : 'json'}
-Plug 'hail2u/vim-css3-syntax', { 'for': [ 'css', 'scss', 'sass'] }
-Plug 'ervandew/supertab'
-Plug 'SirVer/ultisnips'
-Plug 'Shougo/neoinclude.vim'
-Plug 'Raimondi/delimitMate' "must be before vim-endwise
-Plug 'tpope/vim-endwise' "must be after delimitMate
-Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-Plug 'jgdavey/tslime.vim'
-Plug 'ekalinin/Dockerfile.vim', { 'for': ['dockerfile', 'Dockerfile'] }
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
-Plug 'mattn/emmet-vim'
-Plug 'mattn/gist-vim' | Plug 'mattn/webapi-vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'nicholaides/words-to-avoid.vim'
-Plug 'chrisbra/Colorizer'
-Plug 'thinca/vim-ref'
-Plug 'ngmy/vim-rubocop', { 'for': 'ruby' }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'maxmellon/vim-jsx-pretty', { 'for': 'javascript' }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'yarn global add tern' }
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript' }
-" Plug 'leafgarland/typescript-vim'
-" Plug 'mhartington/nvim-typescript'
+
+" This is super-broken in combination with ripgrep search
+" Plug 'wellle/context.vim' " Sticky context while scrolling
+
 call plug#end()
 
-if shouldInstallBundles == 1
-    echo "~> Installing plugs\n"
-    :PlugInstall
+set nobackup		" do not keep a backup file
+set nowritebackup
+set autoindent		" always set autoindenting on
+set autoread		" Load changed files without alerting us all the time
+autocmd FileType html setlocal autoindent smartindent nocindent indentexpr=
+autocmd FIleType changelog set tw=0	" Prevent VIM from hard-wrapping in changelog
+
+if has("win32") || has("win64")
+	set guifont=Fira\ Mono:h11
+else
+	set guifont=Fira\ Mono:h14
 endif
 
-" Vim Config
-filetype plugin indent on
-syntax enable
 
-let g:python3_host_prog = '/usr/bin/python3'
-
-" General
-set ruler
-set autowrite
-set noswapfile nowritebackup nobackup
-set number relativenumber
-set history=1000
-set ttimeout ttimeoutlen=1 timeoutlen=500
-set wildmenu wildmode=list:full
-set wildignore=*.o,*.obj,tmp,.git,node_modules,bower_components,.DS_Store,build
-set visualbell
-set fileformats+=mac
-set display+=lastline
-set nofoldenable
-set splitright splitbelow
-set cursorline
-set pumheight=10
+set tabstop=4
+set shiftwidth=4
+set expandtab
 set nowrap
-set inccommand=nosplit
-set showcmd
-set termguicolors
-set smarttab
-set softtabstop=2
-set tabstop=2
+set hlsearch
+set number
+" set number relativenumber
+set splitbelow
+set splitright
+set scrolloff=5 	 " Scroll vertially before hitting the edges of the window
+set sidescrolloff=10 " Scroll horizontally before hitting the edges of the window
+set ignorecase		 " Make search case-insensitive by default
 
-" Indendation
-set autoindent smarttab expandtab
-set shiftround tabstop=2 shiftwidth=2
-set pastetoggle=<F2>
+" HTML indentation
 
-" Search
-set gdefault
-set ignorecase smartcase
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
 
-set list
-set listchars=tab:▸\ ,trail:•,extends:»,precedes:«,nbsp:¬
-set scrolloff=1 sidescrolloff=5
+" Auto-reload changed files
+autocmd FocusGained,BufEnter * if mode() != 'c' | checktime | endif
 
-colorscheme hybrid
-set bg=dark
+" Write files before many operations
+set autowrite
+" … but keep the undo buffer when we switch files, otherwise autowrite can
+" cause some nasty data loss
+set hidden
 
-" Mappings
+set background=dark
+colorscheme gruvbox
 
-inoremap <C-U> <C-G>u<C-U>
-noremap <Leader>so :w<CR> :so ~/.config/nvim/init.vim<CR>
-noremap <Leader>vi :tabe ~/.config/nvim/init.vim<CR>
-noremap <Leader>pi :w<CR> :so ~/.config/nvim/init.vim<CR> :PlugInstall<CR>
-noremap <Leader>h :nohl<CR>
-noremap <Leader>sp :UltiSnipsEdit<CR>
-vnoremap <C-c> "+y
-nnoremap <Leader><Leader> <C-^>
-nmap k gk
-nmap j gj
-map Q <Nop>
-map K <Nop>
-inoremap jk <Esc>
-command! Q q
-command! Qa qa
-" Do not show stupid q: window
-map q: :q
-" tmux-runner
-let g:VtrUseVtrMaps = 1
-let g:VtrGitCdUpOnOpen = 0
-let g:VtrPercentage = 30
-let g:vtr_filetype_runner_overrides = {
-      \ 'go': 'go run {file}',
-      \ 'php': 'hhvm {file}'
-      \ }
-" Neomake
-autocmd! BufWritePost * Neomake
-let g:neomake_scss_enabled_checkers = ['scsslint']
-" vim-test
-let test#strategy = "vtr"
-" let test#strategy = "tslime"
+let mapleader = " "
+" Disable leader timeout
+set notimeout
+set ttimeout
 
-" NerdTree
-autocmd VimEnter * NERDTree
+" Auto-close tags on "</"
+autocmd FileType html inoremap </ </<C-X><C-O>
 
-nmap <silent> <leader>s :TestNearest<CR>
-nmap <silent> <leader>r :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-" tmux-navigator
-let g:tmux_navigator_no_mappings = 1
-nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
-nnoremap <silent> <c-j> :TmuxNavigateDown<CR>
-nnoremap <silent> <c-k> :TmuxNavigateUp<CR>
-nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
-" Ultisnips
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-TAB>'
-let g:UltiSnipsEditSplit = 'vertical'
-let g:UltiSnipsSnippetsDir='~/.config/nvim/UltiSnips'
-let g:UltiSnipsSnippetDirectories=['UltiSnips']
-" delimitMate
-let g:delimitMate_expand_space = 1
-let g:delimitMate_expand_cr = 1
-let g:delimitMate_smart_quotes = 1
-let g:delimitMate_expand_inside_quotes = 0
-let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
-" Fzf
-nnoremap <C-p> :FZF<cr>
-nnoremap <leader> :Buffers<cr>
-" neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
-" vim-jsx
-let g:jsx_ext_required = 0
-" Enable Emmet just for HTML/CSS/ERB
-let g:user_emmet_install_global = 0
-autocmd FileType html,css,eruby,eco,javascript.jsx,javascript,md EmmetInstall
-" Align GitHub-flavored Markdown tables
-au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>
-" Allow project-specific `vimrc`s:
-" http://andrew.stwrt.ca/posts/project-specific-vimrc/
-set exrc
-autocmd FileType ruby,javascript,javascript.jsx,css,scss,html autocmd BufWritePre <buffer> :%s/\s\+$//e
-autocmd BufRead,BufNewFile .eslintrc,.jscsrc,.jshintrc,.babelrc,.tern-project set ft=json
-" json
-let g:vim_json_syntax_conceal = 0
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#file#enable_buffer_path = 1
-let g:deoplete#omni#input_patterns = {}
-if has('persistent_undo')
-  set undofile
-  set undodir=~/.config/nvim/tmp/undo//
+autocmd FileType javascript syntax keyword jsAsync async await
+autocmd FileType javascript highlight link jsAsync Keyword
+
+" if has("gui_vimr") || has("gui_macvim")
+" 	let g:ctrlp_map = '<D-p>'
+" else
+let g:ctrlp_map = '<C-p>'
+" endif
+
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_custom_ignore = '\v[\/]((\.(git|hg|svn))|(node_modules|build|dist)$'
+if has("win32")
+    let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard', 'rg %s --files --color=never --glob ""']
+else
+    let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 endif
-" go
-let g:go_fmt_command = 'goimports'
-let g:go_highlight_types = 1
-let g:go_auto_type_info = 1
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <leader>r <Plug>(go-test)
-au FileType go nmap <leader>s <Plug>(go-test-func)
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>c <Plug>(go-coverage-toggle)
-au FileType go command! -bang A call go#alternate#Switch(<bang>0, '')
-au FileType go command! -bang AV call go#alternate#Switch(0, "vsplit")
-au FileType go command! -bang AS call go#alternate#Switch(0, "split")
-au FileType go set colorcolumn=80
-" EasyAlign
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-" Rubocop
-let g:vimrubocop_keymap = 0
-nmap <Leader>ra :RuboCop -a<cr>
-" ==================================================
-" Spell check configuration
-" ==================================================
-let g:myLangList=["nospell","es_es","en_us"]
-function! ToggleSpell()
-  if !exists( "b:myLang" )
-    if &spell
-      let b:myLang=index(g:myLangList, &spelllang)
-    else
-      let b:myLang=0
-    endif
-  endif
-  let b:myLang=b:myLang+1
-  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
-  if b:myLang==0
-    setlocal nospell
-  else
-    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
-  endif
-  echo "spell checking language:" g:myLangList[b:myLang]
+let g:ctrlp_switch_buffer = 'et' " If a file is already open, open it again in a new pane instead of switching to the existing pane
+
+" Remap jump to tag
+" nnoremap ü :tj<CR>
+nnoremap ü g<C-]>
+nnoremap Ü <C-]>
+nnoremap <C-w>ü <C-w>]
+
+" set completeopt+=menuone,noinsert
+
+map <Leader>= :%!jq --tab -S .<Enter>
+map <Leader>c :make<Enter>
+
+
+" Visual mode EasyAlign
+xmap <leader>a <Plug>(EasyAlign)
+" Normal mode EasyAlign
+nmap <leader>a <Plug>(EasyAlign)
+
+" Next/previous search result
+map <C-n> :cn<Enter>
+map <C-j> :cN<Enter>
+
+" Navigate tabs
+map <C-h> gT
+map <C-l> gt
+
+" Exit terminal with Esc
+tnoremap <Esc> <C-\><C-n>
+
+
+" Automatically open quickfix window when compiling
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
+" NERDTree
+let NERDTreeIgnore=['.dSYM$','\~$']
+let g:will_open_nerdtree = 0 "A 'mutex' to fix SyncTree opening another nerdtree when we use NERDTreeFocus for the first time
+function! NERDTreeOpenSafely()
+	let g:will_open_nerdtree = 1
+	NERDTreeFocus
+	let g:will_open_nerdtree = 0
 endfunction
-nmap <silent> <F7> :call ToggleSpell()<CR>
-set statusline=""
-set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
-set statusline+=%{exists('g:loaded_fugitive')?'\ ':''}
-set statusline+=%f\ [ASCII=\%03.3b]
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+map <Leader>n :call NERDTreeOpenSafely()<Enter>
+map <Leader>N :NERDTreeToggleVCS<Enter>
+map <Leader>f :NERDTreeFind<Enter>
+map <Leader>s :call SyncTree()<Enter>
+
+" sync open file with NERDTree
+" " Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+	return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+function! IsNERDTreeFocussed()
+	return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) == winnr())
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+	" echo "Modifiable: " . &modifiable . " open: " . IsNERDTreeOpen() . " name: " . expand('%') . " diff: " . &diff
+	if g:will_open_nerdtree != 1 && &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+		NERDTreeFind
+		if IsNERDTreeFocussed()
+			wincmd p
+		endif
+	endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+" Disabled because it’s terribly slow for non-trivial projects
+" autocmd BufEnter * call SyncTree()
+"
+
+fun! NoExcitingBuffersLeft()
+    for w in range(1, winnr('$'))
+        let l:name = bufname(winbufnr(w))
+        let l:type = getbufvar(winbufnr(w), "&buftype")
+        " echo "Name: " . l:name . ", Type: " . l:type
+        " @ToDo: Also ignore help window (But we don’t seem to find it with the
+        " range expression above
+
+    endfor
+
+    if tabpagenr('$') ==? 1
+        execute 'quitall'
+    else
+        execute 'tabclose'
+    endif
+endfun
+
+autocmd WinClosed * call NoExcitingBuffersLeft()
+
+" Shortcuts for copy/paste clipboard
+map <Leader>y "+y
+map <Leader>Y "+Y
+map <Leader>p "+p
+map <Leader>P "+P
+
+let g:camelcasemotion_key = '<leader>'
+
+function! SaveSession()
+  if v:this_session != ""
+    echo 'Saving ' . v:this_session
+    exe 'mksession! ' . v:this_session
+  else
+    echo "No Session."
+  endif
+endfunction
+
+autocmd VimLeave * NERDTreeClose
+autocmd VimLeave * :call SaveSession()
+
+" Move lines up/down
+nnoremap º :m .+1<CR>==
+nnoremap ∆ :m .-2<CR>==
+inoremap º <Esc>:m .+1<CR>==gi
+inoremap ∆ <Esc>:m .-2<CR>==gi
+vnoremap º :m '>+1<CR>gv=gv
+vnoremap ∆ :m '<-2<CR>gv=gv
+
+autocmd FileType typescript setlocal commentstring=//\ %s
+autocmd FileType cpp setlocal commentstring=//\ %s
+autocmd FileType c setlocal commentstring=//\ %s
+""""""""""""""""
+" COC stuff
+""""""""""""""""
+
+
+" Give more space for displaying messages.
+set cmdheight=1
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
+
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+
+
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+" inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" GoTo code navigation.
+
+
+" Jump to error/warning
+
+
+" Symbol renaming.
+
+
+nmap <M-Right> :vertical resize +1<CR>
+nmap <M-Left> :vertical resize -1<CR>
+nmap <M-Down> :resize +1<CR>
+nmap <M-Up> :resize -1<CR>
+
+
+" Jai stuff
+if has("win32")
+    let g:jai_path='C:/git/jai'
+else
+    let g:jai_path='/Users/raphael/Projekte/jai/jai'
 endif
-au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-" let g:nvim_typescript#max_completion_detail=100
-let g:tern_request_timeout = 1
-let g:tern#command = ["tern"]
-let g:tern#arguments = ["--persistent"]
+let g:jai_compiler='jai'
+let g:jai_modules=g:jai_path . '/modules/'
+
+function! FindJaiExecutable(filename)
+	if exists("g:jair_path")
+		return g:jair_path
+	else
+		return fnamemodify(a:filename, ':r')
+	endif
+endfunction
+
+if !exists("jair_path")
+  let jair_path = ''
+endif
+if !exists("jair_args")
+  let jair_args = ''
+endif
+
+autocmd FileType jai compiler jai
+ "Set the current file as jai entry point
+map <Leader>j :let g:jai_entrypoint = expand('%')<Enter> :call UpdateJaiMakeprg()<Enter>
+map <Leader>u :call UpdateJaiMakeprg()<Enter>
+
+
+" Ripgrep
+let g:rg_highlight = 1
+let g:rg_derive_root = 1
+map <Leader>l "zyiw:exe 'Rg "\b'.@z.'\b"'<Enter>
+
+"Move the quickfix window to the bottom.
+"Neovim automatically opens the quickfix window when grep is called, so
+"ripgrep’s g:rg_window_location has no effect because the window is already
+"open
+" autocmd FileType qf wincmd J
+
+if !has("win32")
+    " gutentags / ctags
+    let g:gutentags_ctags_executable='/opt/homebrew/bin/ctags'
+endif
+
+" Compile Jai project
+if has("win32")
+    autocmd BufRead */jai/*.cpp,*/jai/*.h setlocal errorformat=%f(%l\\\,%c):\ fatal\ %t%*[^:]:\ %m,%f(%l\\\,%c):\ %t%*[^:]:\ %m,%f(%l):\ fatal\ %t%*[^:]:\ %m,%f(%l):\ %t%*[^:]:\ %m,%*[^.].lib%*[^:]:\ %t%*[^:]:\ %m,%*[^.].obj%*[^:]:\ %t%*[^:]:\ %m
+    autocmd BufRead */jai/*.cpp,*/jai/*.h setlocal makeprg=MSBuild.exe\ /nologo\ /v:q\ /p:configuration=Debug\ /p:platform=x64\ /p:GenerateFullPaths=true\ jai.vcxproj
+else
+    autocmd BufRead */jai/*.cpp,*/jai/*.h setlocal makeprg=cmake\ --build\ build/macos/debug\ --parallel\ 8
+endif
+
+
+let g:airline_section_b = '' " Get rid of 'current branch' indicator
+
+set inccommand=split " Show multiple results when doing :%s replacements
+
+if has("win32")
+	source $VIMRUNTIME/mswin.vim
+	nunmap <C-a>
+endif
+
+let g:neovide_cursor_animation_length=0
